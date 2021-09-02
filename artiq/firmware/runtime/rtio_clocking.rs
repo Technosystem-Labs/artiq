@@ -145,6 +145,19 @@ fn setup_si5324_as_synthesizer() {
         bwsel  : 3,
         crystal_ref: true
     };
+    // 100 MHz output from 10 MHz CLKINx reference
+    #[cfg(all(rtio_frequency = "100.0", si5324_ext_ref, ext_ref_frequency = "10.0"))]
+    const SI5324_SETTINGS: si5324::FrequencySettings
+        = si5324::FrequencySettings {
+        n1_hs  : 5,
+        nc1_ls : 10,
+        n2_hs  : 10,
+        n2_ls  : 300,
+        n31    : 6,
+        n32    : 6,
+        bwsel  : 4,
+        crystal_ref: false
+    };
     #[cfg(all(soc_platform = "kasli", hw_rev = "v2.0", not(si5324_ext_ref)))]
     let si5324_ref_input = si5324::Input::Ckin2;
     #[cfg(all(soc_platform = "kasli", hw_rev = "v2.0", si5324_ext_ref))]
